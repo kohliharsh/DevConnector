@@ -24,6 +24,7 @@ router.get("/test", (req, res) => res.json("Users Worked"));
 //@access Public
 
 router.post("/register", (req, res) => {
+  console.log(req.headers);
   //validating registration details
   const { error, isValid } = validateRegisterInput(req.body);
   if (!isValid) {
