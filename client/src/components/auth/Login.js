@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
+  let mt = "6rem";
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -35,7 +36,9 @@ const Login = () => {
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Sign in</h1>
+      <h1 className="large text-primary" style={{ marginTop: mt }}>
+        Sign in
+      </h1>
       <p className="lead">
         <i className="fas fa-user"></i> Sign into your account
       </p>

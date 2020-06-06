@@ -1,8 +1,12 @@
 import React, { Fragment, useState } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { setAlert } from "../../actions/alert";
+import { register } from "../../actions/auth";
+import PropTypes from "prop-types";
 
-const Register = () => {
+const Register = ({ setAlert, register }) => {
+  let mt = "6rem";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,26 +27,18 @@ const Register = () => {
   const submit = async (event) => {
     event.preventDefault();
     if (password !== password2) {
-      console.log("password do not match");
+      mt = "10000";
+      setAlert("password do not match", "danger");
     } else {
-      const newUser = {
-        name,
-        email,
-        password,
-        password2,
-      };
-      try {
-        const res = await axios.post("/api/users/register", newUser);
-        console.log(res.data);
-      } catch (err) {
-        console.log(err.response.data);
-      }
+      register({ name, email, password, password2 });
     }
   };
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Sign Up</h1>
+      <h1 className="large text-primary" style={{ marginTop: mt }}>
+        Sign Up
+      </h1>
       <p className="lead">
         <i className="fas fa-user"></i> Create Your Account
       </p>
@@ -76,7 +72,6 @@ const Register = () => {
             placeholder="Password"
             name="password"
             value={password}
-            minLength="6"
           />
         </div>
         <div className="form-group">
@@ -86,7 +81,6 @@ const Register = () => {
             placeholder="Confirm Password"
             name="password2"
             value={password2}
-            minLength="6"
           />
         </div>
         <input type="submit" className="btn btn-primary" value="register" />
@@ -98,4 +92,9 @@ const Register = () => {
   );
 };
 
-export default Register;
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+};
+
+export default connect(null, { setAlert, register })(Register);
