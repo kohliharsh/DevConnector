@@ -18,7 +18,7 @@ function App() {
       <Router>
         <Fragment>
           <Navbar />
-          <Route exact path="/" component={Landing} />
+          <Route exact path="/" component={Landing} className="footset" />
           <section className="container">
             <Alert />
             <Switch>

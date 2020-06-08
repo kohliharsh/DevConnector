@@ -24,7 +24,6 @@ router.get("/test", (req, res) => res.json("Users Worked"));
 //@access Public
 
 router.post("/register", (req, res) => {
-  console.log(req.headers);
   //validating registration details
   const { error, isValid } = validateRegisterInput(req.body);
   if (!isValid) {
@@ -34,7 +33,7 @@ router.post("/register", (req, res) => {
   User.findOne({ email: req.body.email })
     .then((user) => {
       if (user) {
-        return res.status(400).json({ email: "Email exists!" });
+        return res.status(401).json({ error: { email: "Email exists!" } });
       } else {
         const avatar = gravatar.url(req.body.email, {
           s: "200",
@@ -59,7 +58,7 @@ router.post("/register", (req, res) => {
               newUser
                 .save()
                 .then((user) => {
-                  res.json({ user });
+                  res.status(200).json({ user });
                 })
                 .catch((err) => console.log(err));
             }
@@ -67,7 +66,10 @@ router.post("/register", (req, res) => {
         });
       }
     })
-    .catch((err) => {});
+    .catch((err) => {
+      console.log(err.message);
+      res.status(400).json({ error: { error: err.message } });
+    });
 });
 
 //@route  Post api/users/login
@@ -101,8 +103,8 @@ router.post("/login", (req, res) => {
           { expiresIn: 3600 },
           (err, token) => {
             res.json({
-              success: true,
               token: "Bearer " + token,
+              user: user,
             });
           }
         );
