@@ -5,6 +5,7 @@ import {
   REGISTER_FAILURE,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
+  LOGOUT,
 } from "./constants";
 
 //Register user
@@ -51,4 +52,9 @@ export const login = ({ email, password }) => async (dispatch) => {
       type: LOGIN_FAIL,
     });
   }
+};
+
+//LOGOUT
+export const logout = () => (dispatch) => {
+  dispatch({ type: LOGOUT });
 };

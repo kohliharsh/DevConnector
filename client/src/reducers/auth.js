@@ -3,6 +3,7 @@ import {
   REGISTER_FAILURE,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  LOGOUT,
 } from "../actions/constants";
 
 const initialStage = {
@@ -40,6 +41,7 @@ export default function (state = initialStage, action) {
         loading: false,
       };
     case LOGIN_FAIL:
+    case LOGOUT:
       localStorage.removeItem("token");
       return {
         ...state,
