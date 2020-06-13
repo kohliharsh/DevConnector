@@ -71,12 +71,12 @@ router.get("/all", (req, res) => {
     .catch((err) => res.status(404).json(err));
 });
 
-//@route  Get api/profile/
+//@route  Get api/profile/me
 //@desc   Get Current user profile
 //@access Private
 
 router.get(
-  "/",
+  "/me",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const errors = {};
@@ -91,7 +91,9 @@ router.get(
         res.json({ profile });
       })
       .catch((err) => {
-        res.status(404).json(err);
+        console.error(err.message);
+        errors.servererror = err.message;
+        res.status(404).send("server error");
       });
   }
 );
